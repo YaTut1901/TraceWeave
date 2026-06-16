@@ -87,29 +87,6 @@ On-chain session record creation is **optional**. If no on-chain record is creat
 
 9. The agent returns **stego-bearing output**.
 
-### 1.4 Flow overview
-
-```mermaid
-flowchart TB
-    subgraph Main["Main session"]
-        H["Requester\n(unmarked request)"] -->|"① no ChainMark"| A["Agent"]
-        A -.->|"② optional"| OC1[("On-chain record")]
-        A -->|"⑧ stego response\nsig · erc8004Id · sessionId*"| H
-    end
-
-    subgraph Sub["Sub-session (verified parent → auto-verified)"]
-        A1["Agent A"] -->|"① stego request\nparentSig"| B["Agent B"]
-        B --> V{"② validate\nparentSig"}
-        V -->|fail| R["reject"]
-        V -->|ok| OC2[("On-chain record")]
-        B -->|"⑧ stego response\nsig · erc8004Id · sessionId"| A1
-    end
-
-    A -->|"⑦ A2A"| A1
-```
-
-\* `sessionId` if on-chain record exists; otherwise `initiatorAddress` (§1.2 step 5).
-
 ---
 
 ## 2. Agent Runtime
